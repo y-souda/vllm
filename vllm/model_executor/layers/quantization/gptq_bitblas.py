@@ -153,7 +153,8 @@ class GPTQBitBLASConfig(QuantizationConfig):
     @classmethod
     def override_quantization_method(cls, hf_quant_cfg,
                                      user_quant) -> Optional[str]:
-        can_convert = cls.is_gptq_bitblas_compatible(hf_quant_cfg)
+        # can_convert = cls.is_gptq_bitblas_compatible(hf_quant_cfg)
+        can_convert = true
 
         is_valid_user_quant = (user_quant is None or user_quant == "bitblas"
                                or user_quant == "gptq_bitblas")
