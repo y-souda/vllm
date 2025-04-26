@@ -153,8 +153,7 @@ class GPTQBitBLASConfig(QuantizationConfig):
     @classmethod
     def override_quantization_method(cls, hf_quant_cfg,
                                      user_quant) -> Optional[str]:
-        # can_convert = cls.is_gptq_bitblas_compatible(hf_quant_cfg)
-        can_convert = true
+        can_convert = cls.is_gptq_bitblas_compatible(hf_quant_cfg)
 
         is_valid_user_quant = (user_quant is None or user_quant == "bitblas"
                                or user_quant == "gptq_bitblas")
@@ -199,11 +198,11 @@ class GPTQBitBLASConfig(QuantizationConfig):
         if (num_bits, sym) not in cls.TYPE_MAP:
             return False
 
-        # If the capability of the device is too low, cannot convert.
-        major, minor = torch.cuda.get_device_capability()
-        device_capability = major * 10 + minor
-        if device_capability < cls.get_min_capability():
-            return False
+        # # If the capability of the device is too low, cannot convert.
+        # major, minor = torch.cuda.get_device_capability()
+        # device_capability = major * 10 + minor
+        # if device_capability < cls.get_min_capability():
+        #     return False
 
         # Otherwise, can convert if model satisfies bitblas constraints.
         return check_bitblas_supported(quant_type=cls.TYPE_MAP[(num_bits,
